@@ -127,5 +127,6 @@ replay_pid*
 
 # Custom
 driver/
-.idea/discord.xml
 .idea/compiler.xml
+.idea/discord.xml
+.idea/misc.xml
