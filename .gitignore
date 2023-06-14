@@ -127,6 +127,9 @@ replay_pid*
 
 # Custom
 driver/
+.idea/libraries/
 .idea/compiler.xml
 .idea/discord.xml
 .idea/misc.xml
+.vscode/
+.GoogleAPIKey/
