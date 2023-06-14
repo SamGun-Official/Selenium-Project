@@ -119,12 +119,22 @@ public class Main {
 //            settings.ChangeColorSettings();
 
             // FOOTER
-            Footer footer = new Footer(driver);
-            footer.AddQuickLinks();
+//            Footer footer = new Footer(driver);
+//            footer.AddQuickLinks();
 
-            //BLOG
-//            Blog blog = new Blog(driver);
-//            blog.addCategory();
+            // PORTOFOLIO
+//            Portofolio portofolio = new Portofolio(driver);
+//            portofolio.AddCategory("Certificate");
+//            portofolio.AddCategory("Experience");
+//            portofolio.FeaturedCategory();
+
+            // TEAM
+//            Team team = new Team(driver);
+//            team.UpdateTeamSection();
+
+            // BLOG
+            Blog blog = new Blog(driver);
+            blog.addCategory();
         } catch (Exception e) {
             e.printStackTrace();
         } finally {

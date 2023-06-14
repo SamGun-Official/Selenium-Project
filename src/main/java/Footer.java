@@ -10,7 +10,7 @@ public class Footer {
         this.driver = driver;
     }
 
-    public void AddQuickLinks() {
+    public void AddQuickLinks() throws InterruptedException {
         // REDIRECT TO QUICK LINKS
         driver.get("https://gruplm.com/user/footer/quick_links?language=en");
 
@@ -31,5 +31,6 @@ public class Footer {
 
         // SAVE
         driver.findElement(By.xpath("//button[@id='submitBtn']")).click();
+        Thread.sleep(1000);
     }
 }
