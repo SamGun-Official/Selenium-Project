@@ -1,4 +1,5 @@
 import org.openqa.selenium.By;
+import org.openqa.selenium.Keys;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.ui.Select;
@@ -18,8 +19,8 @@ public class Settings {
         driver.findElement(By.xpath("//img[@src='https://gruplm.com/assets/front/img/user/templates/home_five.png']")).click();
 
         // SUBMIT
-//        driver.findElement(By.xpath("//button[@id='submitBtn']")).click();
-//        Thread.sleep(2000);
+        driver.findElement(By.xpath("//button[@id='submitBtn']")).click();
+        Thread.sleep(1000);
     }
 
     public void ChangeGeneralSettings() throws InterruptedException {
@@ -32,8 +33,7 @@ public class Settings {
         website_title.sendKeys("KELOMPOK 2");
 
         // INPUT TIMEZONE
-        Select timezone_select = new Select(driver.findElement(By.xpath("//select[@name='timezone']")));
-        timezone_select.selectByVisibleText("Asia/Jakarta / (UTC 7.00)");
+        new Select(driver.findElement(By.xpath("//select[@name='timezone']"))).selectByVisibleText("Asia/Jakarta / (UTC 7.00)");
 
         // INPUT BASE CURRENCY SYMBOL
         WebElement base_currency_symbol = driver.findElement(By.xpath("//input[@name='base_currency_symbol']"));
@@ -51,8 +51,8 @@ public class Settings {
         base_currency_rate.sendKeys("14840");
 
         // SUBMIT
-//        driver.findElement(By.xpath("//button[@id='submitBtn']")).click();
-//        Thread.sleep(2000);
+        base_currency_rate.sendKeys(Keys.RETURN);
+        Thread.sleep(1000);
     }
 
     public void ChangeColorSettings() throws InterruptedException {
@@ -65,7 +65,7 @@ public class Settings {
         base_color.sendKeys("FF0000");
 
         // SUBMIT
-//        driver.findElement(By.xpath("//button[@id='permissionBtn']")).click();
-//        Thread.sleep(2000);
+        driver.findElement(By.xpath("//button[@id='permissionBtn']")).click();
+        Thread.sleep(1000);
     }
 }
