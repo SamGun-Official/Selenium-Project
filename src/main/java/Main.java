@@ -63,8 +63,8 @@ class GoogleSpreadsheet {
         GoogleClientSecrets clientSecrets = GoogleClientSecrets.load(JSON_FACTORY, new InputStreamReader(inputFile));
         GoogleAuthorizationCodeFlow codeFlow = new GoogleAuthorizationCodeFlow.Builder(
                 HTTP_TRANSPORT, JSON_FACTORY, clientSecrets, Collections.singletonList(SheetsScopes.SPREADSHEETS_READONLY))
-                        .setDataStoreFactory(new FileDataStoreFactory(new File(System.getProperty("user.dir") + "/GoogleAPIKey")))
-                        .setAccessType("offline").build();
+                .setDataStoreFactory(new FileDataStoreFactory(new File(System.getProperty("user.dir") + "/GoogleAPIKey")))
+                .setAccessType("offline").build();
 
         return new AuthorizationCodeInstalledApp(codeFlow, new LocalServerReceiver()).authorize("user");
     }
@@ -74,8 +74,8 @@ class GoogleSpreadsheet {
 
         Sheets service = new Sheets.Builder(HTTP_TRANSPORT, JSON_FACTORY,
                 Boolean.parseBoolean(System.getenv("ENABLE_AUTHORIZATION")) ? authorizeClient(HTTP_TRANSPORT) : null)
-                        .setApplicationName("Businesso Testing")
-                        .build();
+                .setApplicationName("Businesso Testing")
+                .build();
         ValueRange response = service.spreadsheets().values()
                 .get(SPREADSHEET_ID, CELL_RANGE)
                 .setKey(System.getenv("API_KEY"))
@@ -101,10 +101,16 @@ public class Main {
             wait.until(web -> ((JavascriptExecutor) web).executeScript("return document.readyState").toString().equals("complete"));
             ((JavascriptExecutor) driver).executeScript("window.scrollTo(0, 0);");
 
-            PricingSelection.navigateToPricing(driver);
-            PricingSelection.clickPurchaseButton(driver);
+//            PricingSelection.navigateToPricing(driver);
+//            PricingSelection.clickPurchaseButton(driver);
+//
+//            List<List<Object>> credentialsData = GoogleSpreadsheet.getData();
 
-            List<List<Object>> credentialsData = GoogleSpreadsheet.getData();
+            new Login(driver);
+            Settings settings = new Settings(driver);
+            settings.ChangeThemes();
+            settings.ChangeGeneralSettings();
+            settings.ChangeColorSettings();
         } catch (Exception e) {
             e.printStackTrace();
         } finally {
