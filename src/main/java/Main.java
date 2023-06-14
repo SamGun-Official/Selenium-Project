@@ -107,10 +107,20 @@ public class Main {
 //            List<List<Object>> credentialsData = GoogleSpreadsheet.getData();
 
             new Login(driver);
-            Settings settings = new Settings(driver);
-            settings.ChangeThemes();
-            settings.ChangeGeneralSettings();
-            settings.ChangeColorSettings();
+
+            // SHOP MANAGEMENT
+//            ShopManagement shop_management = new ShopManagement(driver);
+//            shop_management.ChangeSettings();
+
+            // SETTINGS
+//            Settings settings = new Settings(driver);
+//            settings.ChangeThemes();
+//            settings.ChangeGeneralSettings();
+//            settings.ChangeColorSettings();
+
+            // FOOTER
+            Footer footer = new Footer(driver);
+            footer.AddQuickLinks();
         } catch (Exception e) {
             e.printStackTrace();
         } finally {
