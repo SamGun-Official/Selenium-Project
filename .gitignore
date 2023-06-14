@@ -127,9 +127,15 @@ replay_pid*
 
 # Custom
 driver/
+GoogleAPIKey/
+
 .idea/libraries/
 .idea/compiler.xml
 .idea/discord.xml
 .idea/misc.xml
+.idea/modules.xml
+.idea/Proyek.iml
+.idea/uiDesigner.xml
 .vscode/
-.GoogleAPIKey/
+
+eclipse-formatter.xml
