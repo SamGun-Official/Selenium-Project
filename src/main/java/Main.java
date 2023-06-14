@@ -121,6 +121,10 @@ public class Main {
             // FOOTER
             Footer footer = new Footer(driver);
             footer.AddQuickLinks();
+
+            //BLOG
+//            Blog blog = new Blog(driver);
+//            blog.addCategory();
         } catch (Exception e) {
             e.printStackTrace();
         } finally {
