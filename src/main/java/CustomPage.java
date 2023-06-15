@@ -31,5 +31,15 @@ public class CustomPage {
 
         // REDIRECT TO PAGES
         driver.get("https://gruplm.com/user/pages?language=en");
+
+        // REDIRECT TO MENU BUILDER
+        driver.get("https://gruplm.com/user/menu-builder?language=en");
+
+        // ADD CUSTOM PAGE TO MENU BUILDER
+        driver.findElement(By.xpath("//a[@data-text='Feeds']")).click();
+
+        // UPDATE MENU
+        driver.findElement(By.xpath("//button[@id='btnOutput']")).click();
+        Thread.sleep(1000);
     }
 }
