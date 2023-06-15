@@ -3,6 +3,7 @@ import org.openqa.selenium.JavascriptExecutor;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.chrome.ChromeDriver;
+import org.openqa.selenium.support.ui.ExpectedConditions;
 import org.openqa.selenium.support.ui.WebDriverWait;
 
 import com.google.api.client.auth.oauth2.Credential;
@@ -51,7 +52,7 @@ class PricingSelection {
 class GoogleSpreadsheet {
     private static final JsonFactory JSON_FACTORY = GsonFactory.getDefaultInstance();
     private static final String SPREADSHEET_ID = "1tbq9V21kLhjGz27Q-iy9aspHGzAernQy54R64fHvARQ";
-    private static final String CELL_RANGE = "Sheet1!A2:C5";
+    private static final String CELL_RANGE = "Sheet1!A2:H5";
 
     /**
      * Authorizes the installed application to access user's protected data.
@@ -63,8 +64,8 @@ class GoogleSpreadsheet {
         GoogleClientSecrets clientSecrets = GoogleClientSecrets.load(JSON_FACTORY, new InputStreamReader(inputFile));
         GoogleAuthorizationCodeFlow codeFlow = new GoogleAuthorizationCodeFlow.Builder(
                 HTTP_TRANSPORT, JSON_FACTORY, clientSecrets, Collections.singletonList(SheetsScopes.SPREADSHEETS_READONLY))
-                .setDataStoreFactory(new FileDataStoreFactory(new File(System.getProperty("user.dir") + "/GoogleAPIKey")))
-                .setAccessType("offline").build();
+                        .setDataStoreFactory(new FileDataStoreFactory(new File(System.getProperty("user.dir") + "/GoogleAPIKey")))
+                        .setAccessType("offline").build();
 
         return new AuthorizationCodeInstalledApp(codeFlow, new LocalServerReceiver()).authorize("user");
     }
@@ -74,14 +75,38 @@ class GoogleSpreadsheet {
 
         Sheets service = new Sheets.Builder(HTTP_TRANSPORT, JSON_FACTORY,
                 Boolean.parseBoolean(System.getenv("ENABLE_AUTHORIZATION")) ? authorizeClient(HTTP_TRANSPORT) : null)
-                .setApplicationName("Businesso Testing")
-                .build();
+                        .setApplicationName("Businesso Testing")
+                        .build();
         ValueRange response = service.spreadsheets().values()
                 .get(SPREADSHEET_ID, CELL_RANGE)
                 .setKey(System.getenv("API_KEY"))
                 .execute();
 
         return response.getValues();
+    }
+
+    public static void registrationProcess(WebDriver driver, WebDriverWait wait, List<List<Object>> credentialsData) {
+        // Should add duplicate login found, else retry until counter is equal to data
+        // length.
+        // Random random = new Random();
+        // List<Object> randomData =
+        // credentialsData.get(random.nextInt(credentialsData.size()));
+        List<Object> randomData = credentialsData.get(2);
+
+        driver.findElement(By.xpath("//input[@type='text' and @name='username']")).sendKeys(randomData.get(0).toString());
+        driver.findElement(By.xpath("//input[@type='email' and @name='email']")).sendKeys(randomData.get(1).toString());
+        driver.findElement(By.xpath("//input[@type='password' and @name='password']")).sendKeys(randomData.get(2).toString());
+        driver.findElement(By.xpath("//input[@type='password' and @name='password_confirmation']")).sendKeys(randomData.get(2).toString());
+        driver.findElement(By.xpath("//button[@type='submit' and @class='main-btn']")).click();
+
+        wait.until(ExpectedConditions.visibilityOfElementLocated(By.id("confirmBtn")));
+
+        driver.findElement(By.id("first_name")).sendKeys(randomData.get(3).toString());
+        driver.findElement(By.id("last_name")).sendKeys(randomData.get(4).toString());
+        driver.findElement(By.id("phone")).sendKeys(randomData.get(5).toString());
+        driver.findElement(By.id("company_name")).sendKeys(randomData.get(6).toString());
+        driver.findElement(By.id("country")).sendKeys(randomData.get(7).toString());
+        driver.findElement(By.xpath("//div[@id='couponReload']//input[@type='text' and @name='coupon']")).sendKeys("softwaretesting");
     }
 }
 
@@ -101,40 +126,41 @@ public class Main {
             wait.until(web -> ((JavascriptExecutor) web).executeScript("return document.readyState").toString().equals("complete"));
             ((JavascriptExecutor) driver).executeScript("window.scrollTo(0, 0);");
 
-//            PricingSelection.navigateToPricing(driver);
-//            PricingSelection.clickPurchaseButton(driver);
-//
-//            List<List<Object>> credentialsData = GoogleSpreadsheet.getData();
+            PricingSelection.navigateToPricing(driver);
+            PricingSelection.clickPurchaseButton(driver);
 
-            new Login(driver);
+            List<List<Object>> credentialsData = GoogleSpreadsheet.getData();
+            GoogleSpreadsheet.registrationProcess(driver, wait, credentialsData);
+
+            // new Login(driver);
 
             // SHOP MANAGEMENT
-//            ShopManagement shop_management = new ShopManagement(driver);
-//            shop_management.ChangeSettings();
+            // ShopManagement shop_management = new ShopManagement(driver);
+            // shop_management.ChangeSettings();
 
             // SETTINGS
-//            Settings settings = new Settings(driver);
-//            settings.ChangeThemes();
-//            settings.ChangeGeneralSettings();
-//            settings.ChangeColorSettings();
+            // Settings settings = new Settings(driver);
+            // settings.ChangeThemes();
+            // settings.ChangeGeneralSettings();
+            // settings.ChangeColorSettings();
 
             // FOOTER
-//            Footer footer = new Footer(driver);
-//            footer.AddQuickLinks();
+            // Footer footer = new Footer(driver);
+            // footer.AddQuickLinks();
 
             // PORTOFOLIO
-//            Portofolio portofolio = new Portofolio(driver);
-//            portofolio.AddCategory("Certificate");
-//            portofolio.AddCategory("Experience");
-//            portofolio.FeaturedCategory();
+            // Portofolio portofolio = new Portofolio(driver);
+            // portofolio.AddCategory("Certificate");
+            // portofolio.AddCategory("Experience");
+            // portofolio.FeaturedCategory();
 
             // TEAM
-//            Team team = new Team(driver);
-//            team.UpdateTeamSection();
+            // Team team = new Team(driver);
+            // team.UpdateTeamSection();
 
             // BLOG
-            Blog blog = new Blog(driver);
-            blog.addCategory();
+            // Blog blog = new Blog(driver);
+            // blog.addCategory();
         } catch (Exception e) {
             e.printStackTrace();
         } finally {
