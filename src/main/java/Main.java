@@ -51,21 +51,8 @@ public class Main {
             WebDriverWait wait = new WebDriverWait(driver, Duration.ofSeconds(30));
             HelperFunctions.waitDomReady(driver, wait);
 
-
-            // login (air)
-//            driver.get("https://gruplm.com/login");
-//            driver.findElement(By.xpath("//div[@class='form_group']//input[@name='email']"))
-//                    .sendKeys("dummy@gmail.com");
-//            driver.findElement(By.xpath("//input[@name='password']"))
-//                    .sendKeys("dummydummy");
-//            driver.findElement(By.xpath("//button[@class='main-btn']")).click();
-
-            PricingSelection.navigateToPricing(driver);
-            PricingSelection.clickPurchaseButton(driver);
-
             // PricingSelection.navigateToPricing(driver);
             // PricingSelection.clickPurchaseButton(driver);
-
 
             // GoogleSpreadsheet googleSpreadsheet = new GoogleSpreadsheet();
             // List<List<Object>> credentialsData = googleSpreadsheet.getData();
@@ -87,12 +74,12 @@ public class Main {
             // settings.ChangeGeneralSettings();
             // settings.ChangeColorSettings();
 
-            //HOME
-//            Thread.sleep(500);
-//             Home home = new Home(driver);
-//             home.AddHeroSection();
-//             home.AddHomeSection();
-//             home.AddVideo();
+            // HOME
+            // Thread.sleep(500);
+            // Home home = new Home(driver);
+            // home.AddHeroSection();
+            // home.AddHomeSection();
+            // home.AddVideo();
 
             // FOOTER
             // Footer footer = new Footer(driver);
