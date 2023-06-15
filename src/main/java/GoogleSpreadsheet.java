@@ -32,11 +32,12 @@ public class GoogleSpreadsheet {
     private static final JsonFactory JSON_FACTORY = GsonFactory.getDefaultInstance();
     private static final String SPREADSHEET_ID = "1tbq9V21kLhjGz27Q-iy9aspHGzAernQy54R64fHvARQ";
     private static final String CELL_RANGE = System.getenv("CELL_RANGE");
+    private int selectedIndex = -1;
 
     /**
      * Authorizes the installed application to access user's protected data.
      */
-    private static Credential authorizeClient(final NetHttpTransport HTTP_TRANSPORT) throws IOException {
+    private Credential authorizeClient(final NetHttpTransport HTTP_TRANSPORT) throws IOException {
         File clientSecret = new File(System.getProperty("user.dir") + System.getenv("CLIENT_SECRET"));
         InputStream inputFile = new FileInputStream(clientSecret);
 
@@ -52,7 +53,7 @@ public class GoogleSpreadsheet {
     /**
      * Fetch data asynchronously from the requested spreadsheet.
      */
-    public static List<List<Object>> getData() throws GeneralSecurityException, IOException {
+    public List<List<Object>> getData() throws GeneralSecurityException, IOException {
         final NetHttpTransport HTTP_TRANSPORT = GoogleNetHttpTransport.newTrustedTransport();
 
         Sheets service = new Sheets.Builder(HTTP_TRANSPORT, JSON_FACTORY,
@@ -70,7 +71,7 @@ public class GoogleSpreadsheet {
     /**
      * Automated user registration process after selecting a pricing plan.
      */
-    public static void registrationProcess(WebDriver driver, WebDriverWait wait, List<List<Object>> credentialsData) {
+    public List<Object> registrationProcess(WebDriver driver, WebDriverWait wait, List<List<Object>> credentialsData) {
         List<By> elementsIdentifier = new ArrayList<By>();
         List<Integer> indexFilterList = new ArrayList<Integer>();
         List<Object> randomData;
@@ -83,8 +84,9 @@ public class GoogleSpreadsheet {
             indexFilterList.add(i);
         }
 
+        boolean isPassthrough = false;
         while (true) {
-            int selectedIndex = new Random().nextInt(indexFilterList.size());
+            selectedIndex = new Random().nextInt(indexFilterList.size());
             randomData = credentialsData.get(selectedIndex);
 
             driver.findElement(elementsIdentifier.get(0)).sendKeys(randomData.get(0).toString());
@@ -96,6 +98,9 @@ public class GoogleSpreadsheet {
             HelperFunctions.waitDomReady(driver, wait);
             indexFilterList.remove(selectedIndex);
             if (driver.getTitle().equals("DNA Store - Checkout") || indexFilterList.size() < 1) {
+                if (driver.getTitle().equals("DNA Store - Checkout")) {
+                    isPassthrough = true;
+                }
                 break;
             }
 
@@ -106,7 +111,7 @@ public class GoogleSpreadsheet {
             System.out.println("Username has been taken! Retrying with other data...");
         }
 
-        if (indexFilterList.size() > 0) {
+        if (isPassthrough) {
             driver.findElement(By.id("first_name")).sendKeys(randomData.get(3).toString());
             driver.findElement(By.id("last_name")).sendKeys(randomData.get(4).toString());
             driver.findElement(By.id("phone")).sendKeys(randomData.get(5).toString());
@@ -117,13 +122,19 @@ public class GoogleSpreadsheet {
 
             wait.until(ExpectedConditions.visibilityOfElementLocated(By.xpath("//div[@id='couponReload']//div[@class='alert alert-success']")));
             driver.findElement(By.xpath("//div[@class='nice-select olima_select']")).click();
+
+            wait.until(ExpectedConditions.visibilityOfElementLocated(By.xpath("//div[@class='nice-select olima_select open']")));
             driver.findElement(By.xpath("//li[@data-value='Paypal']")).click();
             driver.findElement(By.id("confirmBtn")).click();
 
             HelperFunctions.waitDomReady(driver, wait);
             driver.findElement(By.linkText("Go to Home")).click();
+
+            return randomData;
         } else {
             System.out.println("All username were registered before! No extra data to register!");
+
+            return null;
         }
     }
 }

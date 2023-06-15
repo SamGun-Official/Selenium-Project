@@ -58,7 +58,7 @@ public class Quotes {
         driver.get("https://gruplm.com/user/quote/form?language=en");
 
         //PICK NO
-        WebElement noRadioButton = driver.findElement(By.xpath("//label[contains(@class, 'selectgroup-item') and .//*[text()='No']]//input[@type='radio']"));
+        WebElement noRadioButton = driver.findElement(By.xpath("//label[contains(@class, 'selectgroup-item')]//span[text()='No']/preceding-sibling::input[@type='radio']"));
         noRadioButton.click();
 
         //INPUT LABEL NAME
