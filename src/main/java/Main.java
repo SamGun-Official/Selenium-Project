@@ -1,4 +1,7 @@
+import org.openqa.selenium.By;
+import org.openqa.selenium.Keys;
 import org.openqa.selenium.WebDriver;
+import org.openqa.selenium.WebElement;
 import org.openqa.selenium.chrome.ChromeDriver;
 import org.openqa.selenium.support.ui.WebDriverWait;
 
@@ -8,6 +11,19 @@ import java.util.List;
 public class Main {
     private static final String DRIVER_PATH = System.getenv("DRIVER_PATH");
     private static final String TARGET_URL = "https://gruplm.com/";
+
+    public static void loginProcess(WebDriver driver, List<Object> fetchedData) {
+        // REDIRECT TO LOGIN
+        driver.get("https://gruplm.com/login");
+
+        // INPUT EMAIL
+        driver.findElements(By.xpath("//input[@name='email']")).get(0).sendKeys(fetchedData.get(1).toString());
+
+        // INPUT PASSWORD AND ENTER
+        WebElement password = driver.findElement(By.xpath("//input[@name='password']"));
+        password.sendKeys(fetchedData.get(2).toString());
+        password.sendKeys(Keys.RETURN);
+    }
 
     public static void main(String[] args) throws InterruptedException {
         WebDriver driver = new ChromeDriver();
@@ -23,10 +39,12 @@ public class Main {
             PricingSelection.navigateToPricing(driver);
             PricingSelection.clickPurchaseButton(driver);
 
-            List<List<Object>> credentialsData = GoogleSpreadsheet.getData();
-            GoogleSpreadsheet.registrationProcess(driver, wait, credentialsData);
-
-            // new Login(driver);
+            GoogleSpreadsheet googleSpreadsheet = new GoogleSpreadsheet();
+            List<List<Object>> credentialsData = googleSpreadsheet.getData();
+            List<Object> fetchedData = googleSpreadsheet.registrationProcess(driver, wait, credentialsData);
+            if (fetchedData != null) {
+                loginProcess(driver, fetchedData);
+            }
 
             // SHOP MANAGEMENT
             // ShopManagement shop_management = new ShopManagement(driver);
