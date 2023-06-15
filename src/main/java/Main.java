@@ -20,6 +20,8 @@ import com.google.api.services.sheets.v4.Sheets;
 import com.google.api.services.sheets.v4.SheetsScopes;
 import com.google.api.services.sheets.v4.model.ValueRange;
 
+import dev.failsafe.internal.util.Assert;
+
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.IOException;
@@ -27,8 +29,10 @@ import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.security.GeneralSecurityException;
 import java.time.Duration;
+import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
+import java.util.Random;
 
 class PricingSelection {
     public static void navigateToPricing(WebDriver driver) {
@@ -64,19 +68,22 @@ class GoogleSpreadsheet {
         GoogleClientSecrets clientSecrets = GoogleClientSecrets.load(JSON_FACTORY, new InputStreamReader(inputFile));
         GoogleAuthorizationCodeFlow codeFlow = new GoogleAuthorizationCodeFlow.Builder(
                 HTTP_TRANSPORT, JSON_FACTORY, clientSecrets, Collections.singletonList(SheetsScopes.SPREADSHEETS_READONLY))
-                .setDataStoreFactory(new FileDataStoreFactory(new File(System.getProperty("user.dir") + "/GoogleAPIKey")))
-                .setAccessType("offline").build();
+                        .setDataStoreFactory(new FileDataStoreFactory(new File(System.getProperty("user.dir") + "/GoogleAPIKey")))
+                        .setAccessType("offline").build();
 
         return new AuthorizationCodeInstalledApp(codeFlow, new LocalServerReceiver()).authorize("user");
     }
 
+    /**
+     * Fetch data asynchronously from the requested spreadsheet.
+     */
     public static List<List<Object>> getData() throws GeneralSecurityException, IOException {
         final NetHttpTransport HTTP_TRANSPORT = GoogleNetHttpTransport.newTrustedTransport();
 
         Sheets service = new Sheets.Builder(HTTP_TRANSPORT, JSON_FACTORY,
                 Boolean.parseBoolean(System.getenv("ENABLE_AUTHORIZATION")) ? authorizeClient(HTTP_TRANSPORT) : null)
-                .setApplicationName("Businesso Testing")
-                .build();
+                        .setApplicationName("Businesso Testing")
+                        .build();
         ValueRange response = service.spreadsheets().values()
                 .get(SPREADSHEET_ID, CELL_RANGE)
                 .setKey(System.getenv("API_KEY"))
@@ -86,20 +93,39 @@ class GoogleSpreadsheet {
     }
 
     public static void registrationProcess(WebDriver driver, WebDriverWait wait, List<List<Object>> credentialsData) {
-        // Should add duplicate login found, else retry until counter is equal to data
-        // length.
-        // Random random = new Random();
-        // List<Object> randomData =
-        // credentialsData.get(random.nextInt(credentialsData.size()));
-        List<Object> randomData = credentialsData.get(2);
+        List<By> elementsIdentifier = new ArrayList<By>();
+        List<Integer> indexFilterList = new ArrayList<Integer>();
+        List<Object> randomData;
 
-        driver.findElement(By.xpath("//input[@type='text' and @name='username']")).sendKeys(randomData.get(0).toString());
-        driver.findElement(By.xpath("//input[@type='email' and @name='email']")).sendKeys(randomData.get(1).toString());
-        driver.findElement(By.xpath("//input[@type='password' and @name='password']")).sendKeys(randomData.get(2).toString());
-        driver.findElement(By.xpath("//input[@type='password' and @name='password_confirmation']")).sendKeys(randomData.get(2).toString());
-        driver.findElement(By.xpath("//button[@type='submit' and @class='main-btn']")).click();
+        elementsIdentifier.add(By.xpath("//input[@type='text' and @name='username']"));
+        elementsIdentifier.add(By.xpath("//input[@type='email' and @name='email']"));
+        elementsIdentifier.add(By.xpath("//input[@type='password' and @name='password']"));
+        elementsIdentifier.add(By.xpath("//input[@type='password' and @name='password_confirmation']"));
+        for (int i = 0; i < credentialsData.size(); i++) {
+            indexFilterList.add(i);
+        }
 
-        wait.until(ExpectedConditions.visibilityOfElementLocated(By.id("confirmBtn")));
+        while (true) {
+            int selectedIndex = new Random().nextInt(indexFilterList.size());
+            randomData = credentialsData.get(selectedIndex);
+
+            driver.findElement(elementsIdentifier.get(0)).sendKeys(randomData.get(0).toString());
+            driver.findElement(elementsIdentifier.get(1)).sendKeys(randomData.get(1).toString());
+            driver.findElement(elementsIdentifier.get(2)).sendKeys(randomData.get(2).toString());
+            driver.findElement(elementsIdentifier.get(3)).sendKeys(randomData.get(2).toString());
+            driver.findElement(By.xpath("//button[@type='submit' and @class='main-btn']")).click();
+
+            HelperFunctions.waitDomReady(driver, wait);
+            indexFilterList.remove(selectedIndex);
+            if (driver.getTitle().equals("DNA Store - Checkout") || indexFilterList.size() < 1) {
+                break;
+            }
+
+            driver.findElement(elementsIdentifier.get(0)).clear();
+            driver.findElement(elementsIdentifier.get(1)).clear();
+            driver.findElement(elementsIdentifier.get(2)).clear();
+            driver.findElement(elementsIdentifier.get(3)).clear();
+        }
 
         driver.findElement(By.id("first_name")).sendKeys(randomData.get(3).toString());
         driver.findElement(By.id("last_name")).sendKeys(randomData.get(4).toString());
@@ -107,6 +133,16 @@ class GoogleSpreadsheet {
         driver.findElement(By.id("company_name")).sendKeys(randomData.get(6).toString());
         driver.findElement(By.id("country")).sendKeys(randomData.get(7).toString());
         driver.findElement(By.xpath("//div[@id='couponReload']//input[@type='text' and @name='coupon']")).sendKeys("softwaretesting");
+        driver.findElement(By.xpath("//div[@class='nice-select olima_select']")).click();
+        driver.findElement(By.xpath("//li[@data-value='Paypal']")).click();
+        // driver.findElement(By.id("confirmBtn")).click();
+    }
+}
+
+class HelperFunctions {
+    public static void waitDomReady(WebDriver driver, WebDriverWait wait) {
+        wait.until(web -> ((JavascriptExecutor) web).executeScript("return document.readyState").toString().equals("complete"));
+        ((JavascriptExecutor) driver).executeScript("window.scrollTo(0, 0);");
     }
 }
 
@@ -123,8 +159,10 @@ public class Main {
             driver.get(TARGET_URL);
 
             WebDriverWait wait = new WebDriverWait(driver, Duration.ofSeconds(30));
-            wait.until(web -> ((JavascriptExecutor) web).executeScript("return document.readyState").toString().equals("complete"));
-            ((JavascriptExecutor) driver).executeScript("window.scrollTo(0, 0);");
+            // wait.until(web -> ((JavascriptExecutor) web).executeScript("return
+            // document.readyState").toString().equals("complete"));
+            // ((JavascriptExecutor) driver).executeScript("window.scrollTo(0, 0);");
+            HelperFunctions.waitDomReady(driver, wait);
 
             PricingSelection.navigateToPricing(driver);
             PricingSelection.clickPurchaseButton(driver);
@@ -166,9 +204,9 @@ public class Main {
             // CustomPage custom_page = new CustomPage(driver);
             // custom_page.CreatePage();
 
-            //QUOTES
-//            Quotes quotes = new Quotes(driver);
-//            quotes.changeQuotesStatus();
+            // QUOTES
+            // Quotes quotes = new Quotes(driver);
+            // quotes.changeQuotesStatus();
         } catch (Exception e) {
             e.printStackTrace();
         } finally {
