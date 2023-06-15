@@ -25,6 +25,19 @@ public class Main {
         password.sendKeys(Keys.RETURN);
     }
 
+    public static void loginProcess(WebDriver driver) {
+        // REDIRECT TO LOGIN
+        driver.get("https://gruplm.com/login");
+
+        // INPUT EMAIL
+        driver.findElements(By.xpath("//input[@name='email']")).get(0).sendKeys("dummy@gmail.com");
+
+        // INPUT PASSWORD AND ENTER
+        WebElement password = driver.findElement(By.xpath("//input[@name='password']"));
+        password.sendKeys("dummydummy");
+        password.sendKeys(Keys.RETURN);
+    }
+
     public static void main(String[] args) throws InterruptedException {
         WebDriver driver = new ChromeDriver();
 
@@ -36,15 +49,18 @@ public class Main {
             WebDriverWait wait = new WebDriverWait(driver, Duration.ofSeconds(30));
             HelperFunctions.waitDomReady(driver, wait);
 
-            PricingSelection.navigateToPricing(driver);
-            PricingSelection.clickPurchaseButton(driver);
+            // PricingSelection.navigateToPricing(driver);
+            // PricingSelection.clickPurchaseButton(driver);
 
-            GoogleSpreadsheet googleSpreadsheet = new GoogleSpreadsheet();
-            List<List<Object>> credentialsData = googleSpreadsheet.getData();
-            List<Object> fetchedData = googleSpreadsheet.registrationProcess(driver, wait, credentialsData);
-            if (fetchedData != null) {
-                loginProcess(driver, fetchedData);
-            }
+            // GoogleSpreadsheet googleSpreadsheet = new GoogleSpreadsheet();
+            // List<List<Object>> credentialsData = googleSpreadsheet.getData();
+            // List<Object> fetchedData = googleSpreadsheet.registrationProcess(driver,
+            // wait, credentialsData);
+            // if (fetchedData != null) {
+            // loginProcess(driver, fetchedData);
+            // }
+
+            loginProcess(driver);
 
             // SHOP MANAGEMENT
             // ShopManagement shop_management = new ShopManagement(driver);
