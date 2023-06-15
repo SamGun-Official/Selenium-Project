@@ -1,10 +1,10 @@
+import org.openqa.selenium.Alert;
 import org.openqa.selenium.By;
-
 import org.openqa.selenium.Keys;
-
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.chrome.ChromeDriver;
+import org.openqa.selenium.support.ui.ExpectedConditions;
 import org.openqa.selenium.support.ui.WebDriverWait;
 
 import java.time.Duration;
@@ -64,6 +64,43 @@ public class Main {
 
             loginProcess(driver);
 
+            HelperFunctions.waitDomReady(driver, wait);
+            driver.get("https://gruplm.com/user/menu-builder?language=en");
+
+            driver.findElement(By.xpath("//ul[@id='myEditor']//li[div/span[@class='txt' and text()='Services'] and contains(@class, 'list-group-item')]//a[contains(@class, 'btn-danger') and contains(@class, 'btnRemove')]")).click();
+            wait.until(ExpectedConditions.alertIsPresent());
+            driver.switchTo().alert().accept();
+
+            driver.findElement(By.xpath("//ul[@id='myEditor']//li[div/span[@class='txt' and text()='Contact'] and contains(@class, 'list-group-item')]//a[contains(@class, 'btn-danger') and contains(@class, 'btnRemove')]")).click();
+            wait.until(ExpectedConditions.alertIsPresent());
+            driver.switchTo().alert().accept();
+
+            driver.findElement(By.xpath("//ul[@id='myEditor']//li[div/span[@class='txt' and text()='Team'] and contains(@class, 'list-group-item')]//a[contains(@class, 'btn-danger') and contains(@class, 'btnRemove')]")).click();
+            wait.until(ExpectedConditions.alertIsPresent());
+            driver.switchTo().alert().accept();
+
+            driver.findElement(By.xpath("//ul[@id='myEditor']//li[div/span[@class='txt' and text()='Career'] and contains(@class, 'list-group-item')]//a[contains(@class, 'btn-danger') and contains(@class, 'btnRemove')]")).click();
+            wait.until(ExpectedConditions.alertIsPresent());
+            driver.switchTo().alert().accept();
+
+            driver.findElement(By.xpath("//ul[@id='myEditor']//li[div/span[@class='txt' and text()='FAQ'] and contains(@class, 'list-group-item')]//a[contains(@class, 'btn-danger') and contains(@class, 'btnRemove')]")).click();
+            wait.until(ExpectedConditions.alertIsPresent());
+            driver.switchTo().alert().accept();
+
+            driver.findElement(By.xpath("//ul[@id='myEditor']//li[div/span[@class='txt' and text()='Shop'] and contains(@class, 'list-group-item')]//a[contains(@class, 'btn-danger') and contains(@class, 'btnRemove')]")).click();
+            wait.until(ExpectedConditions.alertIsPresent());
+            driver.switchTo().alert().accept();
+
+            driver.findElement(By.xpath("//ul[@id='myEditor']//li[div/span[@class='txt' and text()='Cart'] and contains(@class, 'list-group-item')]//a[contains(@class, 'btn-danger') and contains(@class, 'btnRemove')]")).click();
+            wait.until(ExpectedConditions.alertIsPresent());
+            driver.switchTo().alert().accept();
+
+            driver.findElement(By.xpath("//ul[@id='myEditor']//li[div/span[@class='txt' and text()='Checkout'] and contains(@class, 'list-group-item')]//a[contains(@class, 'btn-danger') and contains(@class, 'btnRemove')]")).click();
+            wait.until(ExpectedConditions.alertIsPresent());
+            driver.switchTo().alert().accept();
+
+            driver.findElement(By.id("btnOutput")).click();
+
             // SHOP MANAGEMENT
             // ShopManagement shop_management = new ShopManagement(driver);
             // shop_management.ChangeSettings();
@@ -112,7 +149,7 @@ public class Main {
             e.printStackTrace();
         } finally {
             System.out.println("DONE!");
-            Thread.sleep(5000);
+            Thread.sleep(10000);
             driver.quit();
         }
     }
