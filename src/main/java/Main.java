@@ -165,6 +165,10 @@ public class Main {
             // CUSTOM PAGE
             // CustomPage custom_page = new CustomPage(driver);
             // custom_page.CreatePage();
+
+            //QUOTES
+//            Quotes quotes = new Quotes(driver);
+//            quotes.changeQuotesStatus();
         } catch (Exception e) {
             e.printStackTrace();
         } finally {
