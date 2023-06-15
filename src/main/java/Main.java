@@ -1,3 +1,4 @@
+import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.chrome.ChromeDriver;
 import org.openqa.selenium.support.ui.WebDriverWait;
@@ -20,6 +21,14 @@ public class Main {
             WebDriverWait wait = new WebDriverWait(driver, Duration.ofSeconds(30));
             HelperFunctions.waitDomReady(driver, wait);
 
+            // login (air)
+//            driver.get("https://gruplm.com/login");
+//            driver.findElement(By.xpath("//div[@class='form_group']//input[@name='email']"))
+//                    .sendKeys("dummy@gmail.com");
+//            driver.findElement(By.xpath("//input[@name='password']"))
+//                    .sendKeys("dummydummy");
+//            driver.findElement(By.xpath("//button[@class='main-btn']")).click();
+
             PricingSelection.navigateToPricing(driver);
             PricingSelection.clickPurchaseButton(driver);
 
@@ -37,6 +46,13 @@ public class Main {
             // settings.ChangeThemes();
             // settings.ChangeGeneralSettings();
             // settings.ChangeColorSettings();
+
+            //HOME
+//            Thread.sleep(500);
+//             Home home = new Home(driver);
+//             home.AddHeroSection();
+//             home.AddHomeSection();
+//             home.AddVideo();
 
             // FOOTER
             // Footer footer = new Footer(driver);
