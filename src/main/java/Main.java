@@ -205,7 +205,9 @@ public class Main {
             // custom_page.CreatePage();
 
             // QUOTES
-            // Quotes quotes = new Quotes(driver);
+//             Quotes quotes = new Quotes(driver);
+            //quotes.formBuilder();
+//            quotes.insertQuotes();
             // quotes.changeQuotesStatus();
         } catch (Exception e) {
             e.printStackTrace();
