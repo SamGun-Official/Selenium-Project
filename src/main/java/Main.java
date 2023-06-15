@@ -64,8 +64,8 @@ class GoogleSpreadsheet {
         GoogleClientSecrets clientSecrets = GoogleClientSecrets.load(JSON_FACTORY, new InputStreamReader(inputFile));
         GoogleAuthorizationCodeFlow codeFlow = new GoogleAuthorizationCodeFlow.Builder(
                 HTTP_TRANSPORT, JSON_FACTORY, clientSecrets, Collections.singletonList(SheetsScopes.SPREADSHEETS_READONLY))
-                        .setDataStoreFactory(new FileDataStoreFactory(new File(System.getProperty("user.dir") + "/GoogleAPIKey")))
-                        .setAccessType("offline").build();
+                .setDataStoreFactory(new FileDataStoreFactory(new File(System.getProperty("user.dir") + "/GoogleAPIKey")))
+                .setAccessType("offline").build();
 
         return new AuthorizationCodeInstalledApp(codeFlow, new LocalServerReceiver()).authorize("user");
     }
@@ -75,8 +75,8 @@ class GoogleSpreadsheet {
 
         Sheets service = new Sheets.Builder(HTTP_TRANSPORT, JSON_FACTORY,
                 Boolean.parseBoolean(System.getenv("ENABLE_AUTHORIZATION")) ? authorizeClient(HTTP_TRANSPORT) : null)
-                        .setApplicationName("Businesso Testing")
-                        .build();
+                .setApplicationName("Businesso Testing")
+                .build();
         ValueRange response = service.spreadsheets().values()
                 .get(SPREADSHEET_ID, CELL_RANGE)
                 .setKey(System.getenv("API_KEY"))
@@ -161,6 +161,10 @@ public class Main {
             // BLOG
             // Blog blog = new Blog(driver);
             // blog.addCategory();
+
+            // CUSTOM PAGE
+            // CustomPage custom_page = new CustomPage(driver);
+            // custom_page.CreatePage();
         } catch (Exception e) {
             e.printStackTrace();
         } finally {
