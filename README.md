@@ -1,10 +1,10 @@
 # Proyek Software Testing - Kelompok 2
-#
+
 ## _Daftar Nama Anggota_
-#### 1. Anderson Soegiharto/220116867
-#### 2. Ignatius Odi/220116919
-#### 3. John Louis Airlangga/220116921
-#### 4. Samuel Gunawan/220116928
+### 1. Anderson Soegiharto (220116867)
+### 2. Ignatius Odi (220116919)
+### 3. John Louis Airlangga (220116921)
+### 4. Samuel Gunawan (220116928)
 #
 ## _Link Google Spreadsheet (Data Dummy)_
 ### https://docs.google.com/spreadsheets/d/1tbq9V21kLhjGz27Q-iy9aspHGzAernQy54R64fHvARQ/edit?usp=sharing
