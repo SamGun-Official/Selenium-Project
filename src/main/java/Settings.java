@@ -20,7 +20,7 @@ public class Settings {
         HelperFunctions.waitDomReady(driver, wait);
 
         // ADD LOGO
-        driver.findElement(By.id("image")).sendKeys(System.getProperty("user.dir") + "/src/images/stts.png");
+        driver.findElement(By.id("image")).sendKeys(System.getProperty("user.dir") + "/src/images/anderson.jpg");
 
         // SUBMIT
         driver.findElement(By.xpath("//button[@type='submit']")).click();
@@ -93,6 +93,7 @@ public class Settings {
         base_color.sendKeys("FF0000");
 
         // SUBMIT
+        Thread.sleep(1000);
         driver.findElement(By.xpath("//button[@id='permissionBtn']")).click();
 
         // WAIT FOR NOTIFICATION

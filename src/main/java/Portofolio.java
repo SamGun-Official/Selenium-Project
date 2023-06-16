@@ -14,9 +14,10 @@ public class Portofolio {
     }
 
     public void AddCategory(String name) throws InterruptedException {
-        // REDIRECT TO CATEGORY
+        // REDIRECT TO PORTOFOLIO CATEGORY
         driver.get("https://gruplm.com/user/portfolio-categories?language=en");
         HelperFunctions.waitDomReady(driver, wait);
+        Thread.sleep(1000);
 
         // CLICK ADD PORTOFOLIO CATEGORY
         driver.findElement(By.xpath("//a[@class='btn btn-primary float-right btn-sm']")).click();

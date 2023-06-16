@@ -13,9 +13,11 @@ public class Blog {
         this.wait = wait;
     }
 
-    public void addCategory() throws InterruptedException {
+    public void AddCategory() throws InterruptedException {
+        // REDIRECT TO BLOG CATEGORY
         driver.get("https://gruplm.com/user/blog-categories?language=en");
         HelperFunctions.waitDomReady(driver, wait);
+        Thread.sleep(1000);
 
         // CLICK ADD BLOG CATEGORY
         driver.findElement(By.xpath("//a[@class='btn btn-primary float-right btn-sm']")).click();
