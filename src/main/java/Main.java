@@ -1,10 +1,5 @@
-import org.openqa.selenium.Alert;
-import org.openqa.selenium.By;
-import org.openqa.selenium.Keys;
 import org.openqa.selenium.WebDriver;
-import org.openqa.selenium.WebElement;
 import org.openqa.selenium.chrome.ChromeDriver;
-import org.openqa.selenium.support.ui.ExpectedConditions;
 import org.openqa.selenium.support.ui.WebDriverWait;
 
 import java.time.Duration;
@@ -13,138 +8,82 @@ import java.util.List;
 public class Main {
     private static final String DRIVER_PATH = System.getenv("DRIVER_PATH");
     private static final String TARGET_URL = "https://gruplm.com/";
-
-    public static void loginProcess(WebDriver driver, List<Object> fetchedData) {
-        // REDIRECT TO LOGIN
-        driver.get("https://gruplm.com/login");
-
-        // INPUT EMAIL
-        driver.findElements(By.xpath("//input[@name='email']")).get(0).sendKeys(fetchedData.get(1).toString());
-
-        // INPUT PASSWORD AND ENTER
-        WebElement password = driver.findElement(By.xpath("//input[@name='password']"));
-        password.sendKeys(fetchedData.get(2).toString());
-        password.sendKeys(Keys.RETURN);
-    }
-
-    public static void loginProcess(WebDriver driver) {
-        // REDIRECT TO LOGIN
-        driver.get("https://gruplm.com/login");
-
-        // INPUT EMAIL
-        driver.findElements(By.xpath("//input[@name='email']")).get(0).sendKeys("dummy@gmail.com");
-
-        // INPUT PASSWORD AND ENTER
-        WebElement password = driver.findElement(By.xpath("//input[@name='password']"));
-        password.sendKeys("dummydummy");
-        password.sendKeys(Keys.RETURN);
-    }
+    private static final boolean DO_REGISTRATION = false;
 
     public static void main(String[] args) throws InterruptedException {
         WebDriver driver = new ChromeDriver();
+        WebDriverWait wait = new WebDriverWait(driver, Duration.ofSeconds(30));
 
         try {
             System.setProperty("webdriver.chrome.driver", DRIVER_PATH);
+            System.setProperty("spreadsheet.cells.range", "Sheet1!A6:H35");
+
             driver.manage().window().maximize();
             driver.get(TARGET_URL);
 
-            WebDriverWait wait = new WebDriverWait(driver, Duration.ofSeconds(30));
+            // DATA FETCH
+            GoogleSpreadsheet googleSpreadsheet = new GoogleSpreadsheet();
+            List<List<Object>> credentialsData = googleSpreadsheet.getData();
+
+            // PRICING PLAN
+            List<Object> fetchedData;
             HelperFunctions.waitDomReady(driver, wait);
-
-            // PricingSelection.navigateToPricing(driver);
-            // PricingSelection.clickPurchaseButton(driver);
-
-            // GoogleSpreadsheet googleSpreadsheet = new GoogleSpreadsheet();
-            // List<List<Object>> credentialsData = googleSpreadsheet.getData();
-            // List<Object> fetchedData = googleSpreadsheet.registrationProcess(driver,
-            // wait, credentialsData);
-            // if (fetchedData != null) {
-            // loginProcess(driver, fetchedData);
-            // }
-
-            loginProcess(driver);
-
-            HelperFunctions.waitDomReady(driver, wait);
-            driver.get("https://gruplm.com/user/menu-builder?language=en");
-
-            driver.findElement(By.xpath("//ul[@id='myEditor']//li[div/span[@class='txt' and text()='Services'] and contains(@class, 'list-group-item')]//a[contains(@class, 'btn-danger') and contains(@class, 'btnRemove')]")).click();
-            wait.until(ExpectedConditions.alertIsPresent());
-            driver.switchTo().alert().accept();
-
-            driver.findElement(By.xpath("//ul[@id='myEditor']//li[div/span[@class='txt' and text()='Contact'] and contains(@class, 'list-group-item')]//a[contains(@class, 'btn-danger') and contains(@class, 'btnRemove')]")).click();
-            wait.until(ExpectedConditions.alertIsPresent());
-            driver.switchTo().alert().accept();
-
-            driver.findElement(By.xpath("//ul[@id='myEditor']//li[div/span[@class='txt' and text()='Team'] and contains(@class, 'list-group-item')]//a[contains(@class, 'btn-danger') and contains(@class, 'btnRemove')]")).click();
-            wait.until(ExpectedConditions.alertIsPresent());
-            driver.switchTo().alert().accept();
-
-            driver.findElement(By.xpath("//ul[@id='myEditor']//li[div/span[@class='txt' and text()='Career'] and contains(@class, 'list-group-item')]//a[contains(@class, 'btn-danger') and contains(@class, 'btnRemove')]")).click();
-            wait.until(ExpectedConditions.alertIsPresent());
-            driver.switchTo().alert().accept();
-
-            driver.findElement(By.xpath("//ul[@id='myEditor']//li[div/span[@class='txt' and text()='FAQ'] and contains(@class, 'list-group-item')]//a[contains(@class, 'btn-danger') and contains(@class, 'btnRemove')]")).click();
-            wait.until(ExpectedConditions.alertIsPresent());
-            driver.switchTo().alert().accept();
-
-            driver.findElement(By.xpath("//ul[@id='myEditor']//li[div/span[@class='txt' and text()='Shop'] and contains(@class, 'list-group-item')]//a[contains(@class, 'btn-danger') and contains(@class, 'btnRemove')]")).click();
-            wait.until(ExpectedConditions.alertIsPresent());
-            driver.switchTo().alert().accept();
-
-            driver.findElement(By.xpath("//ul[@id='myEditor']//li[div/span[@class='txt' and text()='Cart'] and contains(@class, 'list-group-item')]//a[contains(@class, 'btn-danger') and contains(@class, 'btnRemove')]")).click();
-            wait.until(ExpectedConditions.alertIsPresent());
-            driver.switchTo().alert().accept();
-
-            driver.findElement(By.xpath("//ul[@id='myEditor']//li[div/span[@class='txt' and text()='Checkout'] and contains(@class, 'list-group-item')]//a[contains(@class, 'btn-danger') and contains(@class, 'btnRemove')]")).click();
-            wait.until(ExpectedConditions.alertIsPresent());
-            driver.switchTo().alert().accept();
-
-            driver.findElement(By.id("btnOutput")).click();
-
-            // SHOP MANAGEMENT
-            // ShopManagement shop_management = new ShopManagement(driver);
-            // shop_management.ChangeSettings();
+            if (DO_REGISTRATION) {
+                Registration.ChoosePricingPlan(driver, wait);
+                fetchedData = Registration.RegistrationProcess(driver, wait, credentialsData);
+            } else {
+                fetchedData = Registration.BypassRegistration(driver, wait, credentialsData);
+            }
+            if (fetchedData != null) {
+                Registration.LoginProcess(driver, fetchedData);
+            }
 
             // SETTINGS
-            // Settings settings = new Settings(driver);
-            // settings.ChangeThemes();
-            // settings.ChangeGeneralSettings();
-            // settings.ChangeColorSettings();
+            Settings settings = new Settings(driver, wait);
+            settings.ChangeThemes();
+            settings.ChangeGeneralSettings();
+            settings.ChangeColorSettings();
+
+            // SHOP MANAGEMENT
+            ShopManagement shop_management = new ShopManagement(driver, wait);
+            shop_management.ChangeSettings();
 
             // HOME
-            // Thread.sleep(500);
-            // Home home = new Home(driver);
-            // home.AddHeroSection();
-            // home.AddHomeSection();
-            // home.AddVideo();
+            Home home = new Home(driver, wait);
+            home.AddHeroSection();
+            home.AddHomeSection();
+            home.AddVideo();
 
             // FOOTER
-            // Footer footer = new Footer(driver);
-            // footer.AddQuickLinks();
+            Footer footer = new Footer(driver, wait);
+            footer.AddQuickLinks();
 
             // PORTOFOLIO
-            // Portofolio portofolio = new Portofolio(driver);
-            // portofolio.AddCategory("Certificate");
-            // portofolio.AddCategory("Experience");
-            // portofolio.FeaturedCategory();
+            Portofolio portofolio = new Portofolio(driver, wait);
+            portofolio.AddCategory("Certificate");
+            portofolio.AddCategory("Experience");
+            portofolio.FeaturedCategory();
 
             // TEAM
-            // Team team = new Team(driver);
-            // team.UpdateTeamSection();
+            Team team = new Team(driver, wait);
+            team.UpdateTeamSection();
 
             // BLOG
-            // Blog blog = new Blog(driver);
-            // blog.addCategory();
+            Blog blog = new Blog(driver, wait);
+            blog.addCategory();
 
             // CUSTOM PAGE
-            // CustomPage custom_page = new CustomPage(driver);
-            // custom_page.CreatePage();
+            CustomPage custom_page = new CustomPage(driver, wait);
+            custom_page.CreatePage();
+
+            // MENU BUILDER
+            MenuBuilder.ChangeMenuItem(driver, wait);
 
             // QUOTES
-            // Quotes quotes = new Quotes(driver);
-            // quotes.formBuilder();
-            // quotes.insertQuotes();
-            // quotes.changeQuotesStatus();
+            Quotes quotes = new Quotes(driver, wait);
+            quotes.formBuilder();
+            quotes.insertQuotes();
+            quotes.changeQuotesStatus();
         } catch (Exception e) {
             e.printStackTrace();
         } finally {

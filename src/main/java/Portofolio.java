@@ -1,21 +1,26 @@
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
+import org.openqa.selenium.support.ui.ExpectedConditions;
 import org.openqa.selenium.support.ui.Select;
+import org.openqa.selenium.support.ui.WebDriverWait;
 
 public class Portofolio {
     WebDriver driver;
+    WebDriverWait wait;
 
-    public Portofolio(WebDriver driver) {
+    public Portofolio(WebDriver driver, WebDriverWait wait) {
         this.driver = driver;
+        this.wait = wait;
     }
 
     public void AddCategory(String name) throws InterruptedException {
         // REDIRECT TO CATEGORY
         driver.get("https://gruplm.com/user/portfolio-categories?language=en");
+        HelperFunctions.waitDomReady(driver, wait);
 
         // CLICK ADD PORTOFOLIO CATEGORY
         driver.findElement(By.xpath("//a[@class='btn btn-primary float-right btn-sm']")).click();
-        Thread.sleep(500);
+        wait.until(ExpectedConditions.visibilityOfElementLocated(By.id("createModal")));
 
         // SELECT LANGUAGE
         new Select(driver.findElement(By.xpath("//select[@name='user_language_id']"))).selectByIndex(1);
@@ -31,11 +36,20 @@ public class Portofolio {
 
         // SUBMIT
         driver.findElement(By.xpath("//button[@id='submitBtn']")).click();
+
+        // WAIT FOR NOTIFICATION
+        HelperFunctions.waitDomReady(driver, wait);
+        Thread.sleep(1000);
     }
 
     public void FeaturedCategory() throws InterruptedException {
+        HelperFunctions.waitDomReady(driver, wait);
+
         // SELECT FEATURED CATEGORY YES
         new Select(driver.findElements(By.xpath("//select[@name='status']")).get(0)).selectByIndex(0);
+
+        // WAIT FOR NOTIFICATION
+        HelperFunctions.waitDomReady(driver, wait);
         Thread.sleep(1000);
     }
 }

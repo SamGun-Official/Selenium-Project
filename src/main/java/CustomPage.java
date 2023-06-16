@@ -1,17 +1,21 @@
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.support.ui.Select;
+import org.openqa.selenium.support.ui.WebDriverWait;
 
 public class CustomPage {
     WebDriver driver;
+    WebDriverWait wait;
 
-    public CustomPage(WebDriver driver) {
+    public CustomPage(WebDriver driver, WebDriverWait wait) {
         this.driver = driver;
+        this.wait = wait;
     }
 
     public void CreatePage() throws InterruptedException {
         // REDIRECT TO CREATE PAGE
         driver.get("https://gruplm.com/user/page/create");
+        HelperFunctions.waitDomReady(driver, wait);
 
         // SELECT LANGUAGE
         new Select(driver.findElement(By.xpath("//select[@id='language']"))).selectByIndex(1);
@@ -40,6 +44,9 @@ public class CustomPage {
 
         // UPDATE MENU
         driver.findElement(By.xpath("//button[@id='btnOutput']")).click();
+
+        // WAIT FOR NOTIFICATION
+        HelperFunctions.waitDomReady(driver, wait);
         Thread.sleep(1000);
     }
 }

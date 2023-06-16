@@ -3,29 +3,37 @@ import org.openqa.selenium.Keys;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.ui.Select;
+import org.openqa.selenium.support.ui.WebDriverWait;
 
 public class Settings {
     WebDriver driver;
+    WebDriverWait wait;
 
-    public Settings(WebDriver driver) {
+    public Settings(WebDriver driver, WebDriverWait wait) {
         this.driver = driver;
+        this.wait = wait;
     }
 
     public void ChangeThemes() throws InterruptedException {
         // REDIRECT TO THEMES
         driver.get("https://gruplm.com/user/theme/version");
+        HelperFunctions.waitDomReady(driver, wait);
 
         // CHANGE TO THEME 5
         driver.findElement(By.xpath("//img[@src='https://gruplm.com/assets/front/img/user/templates/home_five.png']")).click();
 
         // SUBMIT
         driver.findElement(By.xpath("//button[@id='submitBtn']")).click();
+
+        // WAIT FOR NOTIFICATION
+        HelperFunctions.waitDomReady(driver, wait);
         Thread.sleep(1000);
     }
 
     public void ChangeGeneralSettings() throws InterruptedException {
         // REDIRECT TO GENERAL SETTINGS
         driver.get("https://gruplm.com/user/general-settings");
+        HelperFunctions.waitDomReady(driver, wait);
 
         // INPUT WEBSITE TITLE
         WebElement website_title = driver.findElement(By.xpath("//input[@name='website_title']"));
@@ -52,12 +60,16 @@ public class Settings {
 
         // SUBMIT
         base_currency_rate.sendKeys(Keys.RETURN);
+
+        // WAIT FOR NOTIFICATION
+        HelperFunctions.waitDomReady(driver, wait);
         Thread.sleep(1000);
     }
 
     public void ChangeColorSettings() throws InterruptedException {
         // REDIRECT TO COLOR SETTINGS
         driver.get("https://gruplm.com/user/color");
+        HelperFunctions.waitDomReady(driver, wait);
 
         // INPUT BASE COLOR
         WebElement base_color = driver.findElement(By.xpath("//input[@name='base_color']"));
@@ -66,6 +78,9 @@ public class Settings {
 
         // SUBMIT
         driver.findElement(By.xpath("//button[@id='permissionBtn']")).click();
+
+        // WAIT FOR NOTIFICATION
+        HelperFunctions.waitDomReady(driver, wait);
         Thread.sleep(1000);
     }
 }

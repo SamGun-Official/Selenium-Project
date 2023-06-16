@@ -125,11 +125,12 @@ dist
 hs_err_pid*
 replay_pid*
 
-# Custom
+# Custom files and directories
 driver/
 GoogleAPIKey/
 
 .idea/libraries/
+.idea/runConfigurations/
 .idea/compiler.xml
 .idea/discord.xml
 .idea/misc.xml
