@@ -53,9 +53,12 @@ public class Main {
             home.AddHeroSection();
             home.AddHomeSection();
             home.AddVideo();
+            home.CustomSection();
+
 
             // FOOTER
             Footer footer = new Footer(driver, wait);
+            footer.AddFooter();
             footer.AddQuickLinks();
 
             // PORTOFOLIO

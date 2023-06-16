@@ -33,7 +33,7 @@ public class Home {
 
         // ADD BUTTON NAME
         driver.findElement(By.xpath("//input[@placeholder='Enter button name']")).clear();
-        driver.findElement(By.xpath("//input[@placeholder='Enter button name']")).sendKeys("Hehe OK");
+        driver.findElement(By.xpath("//input[@placeholder='Enter button name']")).sendKeys("Click me please");
 
         // ADD BUTTON URL
         driver.findElement(By.xpath("//input[@placeholder='Enter button url']")).clear();
@@ -98,7 +98,7 @@ public class Home {
         HelperFunctions.waitDomReady(driver, wait);
 
         // ADD BACKGROUND IMG
-        driver.findElement(By.id("image")).sendKeys(System.getProperty("user.dir") + "/src/images/tuhkan_babi.jpg");
+        driver.findElement(By.id("image")).sendKeys(System.getProperty("user.dir") + "/src/images/mirip_kamu.jpg");
 
         // ADD URL
         driver.findElement(By.xpath("//input[@name='video_section_url']")).clear();
@@ -106,6 +106,29 @@ public class Home {
 
         // SUBMIT
         driver.findElement(By.xpath("//button[@type='submit']")).click();
+
+        // WAIT FOR NOTIFICATION
+        HelperFunctions.waitDomReady(driver, wait);
+        Thread.sleep(1000);
+    }
+
+    public void CustomSection() throws InterruptedException {
+        // REDIRECT TO SECTION CUSTOM
+        driver.get("https://gruplm.com/user/sections");
+        HelperFunctions.waitDomReady(driver, wait);
+
+        // Deactive Featured Services Section
+        driver.findElement(By.xpath("(//label[@class='selectgroup-item'])[6]")).click();
+
+        // Deactive Counter Info Section
+        driver.findElement(By.xpath("(//label[@class='selectgroup-item'])[8]")).click();
+        // Deactive Contact Section
+        driver.findElement(By.xpath("(//label[@class='selectgroup-item'])[16]")).click();
+        // Deactive Work Process Section
+        driver.findElement(By.xpath("(//label[@class='selectgroup-item'])[18]")).click();
+
+        // SUBMIT
+        driver.findElement(By.xpath("//button[@id='displayNotif']")).click();
 
         // WAIT FOR NOTIFICATION
         HelperFunctions.waitDomReady(driver, wait);

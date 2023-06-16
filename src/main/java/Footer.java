@@ -13,6 +13,26 @@ public class Footer {
         this.wait = wait;
     }
 
+    public void AddFooter() throws InterruptedException {
+        // REDIRECT TO QUICK LINKS
+        driver.get("https://gruplm.com/user/footer/text?language=en");
+        HelperFunctions.waitDomReady(driver, wait);
+
+        // ADD FOOTER LOGO
+        driver.findElement(By.xpath("//input[@name='logo']")).sendKeys(System.getProperty("user.dir") + "/src/images/tuhkan_babi.jpg");
+
+        // ADD COPYRIGHT TEXT
+        driver.findElement(By.xpath("//div[@role='textbox']")).clear();
+        driver.findElement(By.xpath("//div[@role='textbox']")).sendKeys("Copyright By Samuel Gunawan - Ignatius Odi - Anderson Soegiharto - Airlangga");
+
+        // SAVE
+        driver.findElement(By.xpath("//button[@id='submitBtn']")).click();
+
+        // WAIT FOR NOTIFICATION
+        HelperFunctions.waitDomReady(driver, wait);
+        Thread.sleep(1000);
+    }
+
     public void AddQuickLinks() throws InterruptedException {
         // REDIRECT TO QUICK LINKS
         driver.get("https://gruplm.com/user/footer/quick_links?language=en");
