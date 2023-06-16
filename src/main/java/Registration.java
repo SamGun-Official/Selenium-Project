@@ -33,8 +33,9 @@ public class Registration {
 
     /**
      * Automated user registration process after selecting a pricing plan.
+     * @throws InterruptedException
      */
-    public static List<Object> RegistrationProcess(WebDriver driver, WebDriverWait wait, List<List<Object>> credentialsData) {
+    public static List<Object> RegistrationProcess(WebDriver driver, WebDriverWait wait, List<List<Object>> credentialsData) throws InterruptedException {
         List<By> elementsIdentifier = new ArrayList<By>();
         List<Integer> indexFilterList = new ArrayList<Integer>();
         List<Object> randomData;
@@ -87,6 +88,7 @@ public class Registration {
             driver.findElement(By.xpath("//div[@class='nice-select olima_select']")).click();
 
             wait.until(ExpectedConditions.visibilityOfElementLocated(By.xpath("//div[@class='nice-select olima_select open']")));
+            Thread.sleep(1000);
             driver.findElement(By.xpath("//li[@data-value='Paypal']")).click();
             driver.findElement(By.id("confirmBtn")).click();
 
