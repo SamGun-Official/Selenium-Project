@@ -33,6 +33,7 @@ public class Registration {
 
     /**
      * Automated user registration process after selecting a pricing plan.
+     * 
      * @throws InterruptedException
      */
     public static List<Object> RegistrationProcess(WebDriver driver, WebDriverWait wait, List<List<Object>> credentialsData) throws InterruptedException {

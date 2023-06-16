@@ -1,6 +1,7 @@
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
+import org.openqa.selenium.support.ui.ExpectedConditions;
 import org.openqa.selenium.support.ui.Select;
 import org.openqa.selenium.support.ui.WebDriverWait;
 
@@ -20,6 +21,7 @@ public class Quotes {
 
         // OPEN QUOTE DETAIL
         driver.findElement(By.xpath("//button[@class='btn btn-secondary btn-sm']")).click();
+        wait.until(ExpectedConditions.visibilityOfElementLocated(By.xpath("//div[@class='modal fade show' and @aria-labelledby='exampleModalCenterTitle']//div[@class='modal-content']")));
 
         // CLOSE QUOTE DETAIL
         driver.findElement(By.xpath("//button[@class='btn btn-secondary']")).click();
@@ -29,15 +31,21 @@ public class Quotes {
 
         // GO TO QUOTE STATUS PROCESSING
         driver.get("https://gruplm.com/user/processing/quotes");
+        HelperFunctions.waitDomReady(driver, wait);
 
         // CHANGE QUOTE STATUS TO COMPLETED
         new Select(driver.findElement(By.xpath("//select[@name='status']"))).selectByIndex(2);
 
         // OPEN COMPLETED PAGE
         driver.get("https://gruplm.com/user/completed/quotes");
+        HelperFunctions.waitDomReady(driver, wait);
 
         // DELETE QUOTE
         driver.findElement(By.xpath("//button[@class='btn btn-danger btn-sm deletebtn']")).click();
+        wait.until(ExpectedConditions.visibilityOfElementLocated(By.xpath("//div[@class='swal-overlay swal-overlay--show-modal']")));
+
+        // CONFIRM DELETE
+        driver.findElement(By.xpath("//button[@class='swal-button swal-button--confirm btn btn-success' and text()='Yes, delete it!']")).click();
 
         // WAIT FOR NOTIFICATION
         HelperFunctions.waitDomReady(driver, wait);
@@ -49,7 +57,7 @@ public class Quotes {
         driver.get("https://gruplm.com/dummy/quote");
         HelperFunctions.waitDomReady(driver, wait);
 
-        // ISI NAMAE
+        // ISI NAMA
         driver.findElement(By.xpath("//input[@name='name']")).sendKeys("Airlangga");
 
         // ISI EMAIL
@@ -72,14 +80,14 @@ public class Quotes {
         HelperFunctions.waitDomReady(driver, wait);
 
         // PICK NO
-        WebElement noRadioButton = driver.findElement(By.xpath("//label[contains(@class, 'selectgroup-item')]//span[text()='No']/preceding-sibling::input[@type='radio']"));
+        WebElement noRadioButton = driver.findElement(By.xpath("//label[contains(@class, 'selectgroup-item')]//span[text()='No']"));
         noRadioButton.click();
 
         // INPUT LABEL NAME
-        driver.findElement(By.xpath("//input[name='label']")).sendKeys("Quote ke-2");
+        driver.findElement(By.xpath("//input[@name='label' and @placeholder='Enter Label Name']")).sendKeys("Quote ke-2");
 
         // INPUT PLACEHOLDER
-        driver.findElement(By.xpath("//input[name='placeholder']")).sendKeys("Tidak harus diisi");
+        driver.findElement(By.xpath("//input[@name='placeholder' and @placeholder='Enter Placeholder']")).sendKeys("Tidak harus diisi");
 
         // SUBMIT
         driver.findElement(By.id("submitBtn")).click();
