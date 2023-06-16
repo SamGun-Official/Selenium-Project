@@ -8,7 +8,7 @@ import java.util.List;
 public class Main {
     private static final String DRIVER_PATH = System.getenv("DRIVER_PATH");
     private static final String TARGET_URL = "https://gruplm.com/";
-    private static final boolean DO_REGISTRATION = false;
+    private static final boolean DO_REGISTRATION = true;
 
     public static void main(String[] args) throws InterruptedException {
         WebDriver driver = new ChromeDriver();

@@ -91,7 +91,7 @@ public class Registration {
             driver.findElement(By.id("confirmBtn")).click();
 
             HelperFunctions.waitDomReady(driver, wait);
-            driver.findElement(By.linkText("Go to UserDashboard.Home")).click();
+            driver.findElement(By.linkText("Go to Home")).click();
 
             return randomData;
         } else {
