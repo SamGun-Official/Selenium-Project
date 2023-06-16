@@ -24,6 +24,7 @@ public class Portofolio {
 
         // SELECT LANGUAGE
         new Select(driver.findElement(By.xpath("//select[@name='user_language_id']"))).selectByIndex(1);
+        HelperFunctions.waitLoaderFaded(wait);
 
         // INPUT NAME
         driver.findElement(By.xpath("//form[@id='ajaxForm']//input[@name='name']")).sendKeys(name);

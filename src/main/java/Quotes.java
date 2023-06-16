@@ -18,9 +18,10 @@ public class Quotes {
         // REDIRECT TO QUOTES PAGE
         driver.get("https://gruplm.com/user/all/quotes");
         HelperFunctions.waitDomReady(driver, wait);
+        Thread.sleep(1000);
 
         // OPEN QUOTE DETAIL
-        driver.findElement(By.xpath("//button[@class='btn btn-secondary btn-sm']")).click();
+        driver.findElements(By.xpath("//button[@class='btn btn-secondary btn-sm']")).get(0).click();
         wait.until(ExpectedConditions.visibilityOfElementLocated(By.xpath("//div[@class='modal fade show' and @aria-labelledby='exampleModalCenterTitle']//div[@class='modal-content']")));
 
         // CLOSE QUOTE DETAIL
@@ -52,9 +53,9 @@ public class Quotes {
         Thread.sleep(1000);
     }
 
-    public void insertQuotes() throws InterruptedException {
+    public void insertQuotes(String username) throws InterruptedException {
         // REDIRECT TO ADD QUOTE PAGE
-        driver.get("https://gruplm.com/dummy/quote");
+        driver.get("https://gruplm.com/" + username + "/quote");
         HelperFunctions.waitDomReady(driver, wait);
 
         // ISI NAMA
@@ -84,7 +85,7 @@ public class Quotes {
         noRadioButton.click();
 
         // INPUT LABEL NAME
-        driver.findElement(By.xpath("//input[@name='label' and @placeholder='Enter Label Name']")).sendKeys("Quote ke-2");
+        driver.findElement(By.xpath("//input[@name='label' and @placeholder='Enter Label Name']")).sendKeys("Masukkan Quote");
 
         // INPUT PLACEHOLDER
         driver.findElement(By.xpath("//input[@name='placeholder' and @placeholder='Enter Placeholder']")).sendKeys("Tidak harus diisi");
