@@ -23,6 +23,7 @@ public class Blog {
 
         // SELECT LANGUAGE
         new Select(driver.findElement(By.xpath("//select[@name='user_language_id']"))).selectByIndex(1);
+        HelperFunctions.waitLoaderFaded(wait);
 
         // INPUT NAME
         driver.findElement(By.xpath("//input[@name='name']")).sendKeys("Lo Ga Bahaya Ta");

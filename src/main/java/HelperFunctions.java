@@ -14,4 +14,9 @@ public class HelperFunctions {
         wait.until(ExpectedConditions.visibilityOfElementLocated(By.xpath("//div[@data-notify='container']")));
         wait.until(ExpectedConditions.invisibilityOfElementLocated(By.xpath("//div[@data-notify='container']")));
     }
+
+    public static void waitLoaderFaded(WebDriverWait wait) {
+        wait.until(ExpectedConditions.visibilityOfElementLocated(By.xpath("//div[@class='request-loader show']")));
+        wait.until(ExpectedConditions.invisibilityOfElementLocated(By.xpath("//div[@class='request-loader show']")));
+    }
 }

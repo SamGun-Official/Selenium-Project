@@ -14,7 +14,7 @@ public class Footer {
     }
 
     public void AddFooter() throws InterruptedException {
-        // REDIRECT TO QUICK LINKS
+        // REDIRECT TO FOOTER SECTION
         driver.get("https://gruplm.com/user/footer/text?language=en");
         HelperFunctions.waitDomReady(driver, wait);
 
@@ -44,6 +44,7 @@ public class Footer {
 
         // SELECT LANGUAGE
         new Select(driver.findElement(By.xpath("//select[@id='language']"))).selectByIndex(1);
+        HelperFunctions.waitLoaderFaded(wait);
 
         // INPUT TITLE
         driver.findElement(By.xpath("//input[@name='title']")).sendKeys("Check This Out!");

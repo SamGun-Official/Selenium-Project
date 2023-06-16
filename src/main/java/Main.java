@@ -35,58 +35,60 @@ public class Main {
                 fetchedData = Registration.BypassRegistration(driver, wait, credentialsData);
             }
             if (fetchedData != null) {
+                // LOGIN
                 Registration.LoginProcess(driver, fetchedData);
+
+                // SETTINGS
+                Settings settings = new Settings(driver, wait);
+                settings.ChangeThemes();
+                settings.ChangeGeneralSettings();
+                settings.ChangeColorSettings();
+
+                // SHOP MANAGEMENT
+                ShopManagement shop_management = new ShopManagement(driver, wait);
+                shop_management.ChangeSettings();
+
+                // HOME
+                Home home = new Home(driver, wait);
+                home.AddHeroSection();
+                home.AddHomeSection();
+                home.AddVideo();
+
+                // FOOTER
+                Footer footer = new Footer(driver, wait);
+                footer.AddQuickLinks();
+                footer.AddFooter();
+
+                // PORTOFOLIO
+                Portofolio portofolio = new Portofolio(driver, wait);
+                portofolio.AddCategory("Certificate");
+                portofolio.AddCategory("Experience");
+                portofolio.FeaturedCategory();
+
+                // TEAM
+                Team team = new Team(driver, wait);
+                team.UpdateTeamSection();
+
+                // BLOG
+                Blog blog = new Blog(driver, wait);
+                blog.addCategory();
+
+                // CUSTOM PAGE
+                CustomPage custom_page = new CustomPage(driver, wait);
+                custom_page.CreatePage();
+
+                // MENU BUILDER
+                MenuBuilder.ChangeMenuItem(driver, wait);
+
+                // QUOTES
+                Quotes quotes = new Quotes(driver, wait);
+                quotes.formBuilder();
+                quotes.insertQuotes(fetchedData.get(0).toString());
+                quotes.changeQuotesStatus();
+
+                // REDIRECT
+                driver.get("https://gruplm.com/" + fetchedData.get(0).toString());
             }
-
-            // SETTINGS
-            Settings settings = new Settings(driver, wait);
-            settings.ChangeThemes();
-            settings.ChangeGeneralSettings();
-            settings.ChangeColorSettings();
-
-            // SHOP MANAGEMENT
-            ShopManagement shop_management = new ShopManagement(driver, wait);
-            shop_management.ChangeSettings();
-
-            // HOME
-            Home home = new Home(driver, wait);
-            home.AddHeroSection();
-            home.AddHomeSection();
-            home.AddVideo();
-            home.CustomSection();
-
-
-            // FOOTER
-            Footer footer = new Footer(driver, wait);
-            footer.AddFooter();
-            footer.AddQuickLinks();
-
-            // PORTOFOLIO
-            Portofolio portofolio = new Portofolio(driver, wait);
-            portofolio.AddCategory("Certificate");
-            portofolio.AddCategory("Experience");
-            portofolio.FeaturedCategory();
-
-            // TEAM
-            Team team = new Team(driver, wait);
-            team.UpdateTeamSection();
-
-            // BLOG
-            Blog blog = new Blog(driver, wait);
-            blog.addCategory();
-
-            // CUSTOM PAGE
-            CustomPage custom_page = new CustomPage(driver, wait);
-            custom_page.CreatePage();
-
-            // MENU BUILDER
-            MenuBuilder.ChangeMenuItem(driver, wait);
-
-            // QUOTES
-            Quotes quotes = new Quotes(driver, wait);
-            quotes.formBuilder();
-            quotes.insertQuotes();
-            quotes.changeQuotesStatus();
         } catch (Exception e) {
             e.printStackTrace();
         } finally {
