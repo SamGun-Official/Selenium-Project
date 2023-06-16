@@ -1,10 +1,10 @@
 # Proyek Software Testing - Kelompok 2
 
 ## _Daftar Nama Anggota_
-### 1. Anderson Soegiharto (220116867)
-### 2. Ignatius Odi (220116919)
-### 3. John Louis Airlangga (220116921)
-### 4. Samuel Gunawan (220116928)
+#### 1. Anderson Soegiharto (220116867)
+#### 2. Ignatius Odi (220116919)
+#### 3. John Louis Airlangga (220116921)
+#### 4. Samuel Gunawan (220116928)
 
 ## _Catatan_
 ### Environment Variables
