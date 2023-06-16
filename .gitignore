@@ -140,3 +140,4 @@ GoogleAPIKey/
 .vscode/
 
 eclipse-formatter.xml
+*.txt
