@@ -6,6 +6,13 @@
 ### 3. John Louis Airlangga (220116921)
 ### 4. Samuel Gunawan (220116928)
 #
+## _Catatan_
+### Environment Variables
+```xml
+DRIVER_PATH="driver/chromedriver_114.0.5735.90.exe"; API_KEY=AIzaSyAeXv_aMiroVno-DLLD6CsRHBJd1iE6CwQ; ENABLE_AUTHORIZATION=false;
+```
+#### "DRIVER_PATH" harus diganti dengan PATH (Relative/Absolute) milik ChromeDriver (Apabila menggunakan Google Chrome) yang digunakan.
+#
 ## _Link Google Spreadsheet (Data Dummy)_
 ### https://docs.google.com/spreadsheets/d/1tbq9V21kLhjGz27Q-iy9aspHGzAernQy54R64fHvARQ/edit?usp=sharing
 #
