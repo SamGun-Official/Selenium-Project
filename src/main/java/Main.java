@@ -41,6 +41,7 @@ public class Main {
             // SETTINGS
             Settings settings = new Settings(driver, wait);
             settings.ChangeThemes();
+            settings.AddLogo();
             settings.ChangeGeneralSettings();
             settings.ChangeColorSettings();
 

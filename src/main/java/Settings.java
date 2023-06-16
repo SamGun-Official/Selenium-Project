@@ -14,6 +14,22 @@ public class Settings {
         this.wait = wait;
     }
 
+    public void AddLogo() throws InterruptedException {
+        // REDIRECT TO LOGO
+        driver.get("https://gruplm.com/user/logo");
+        HelperFunctions.waitDomReady(driver, wait);
+
+        // ADD LOGO
+        driver.findElement(By.id("image")).sendKeys(System.getProperty("user.dir") + "/src/images/stts.png");
+
+        // SUBMIT
+        driver.findElement(By.xpath("//button[@type='submit']")).click();
+
+        // WAIT FOR NOTIFICATION
+        HelperFunctions.waitDomReady(driver, wait);
+        Thread.sleep(1000);
+    }
+
     public void ChangeThemes() throws InterruptedException {
         // REDIRECT TO THEMES
         driver.get("https://gruplm.com/user/theme/version");
